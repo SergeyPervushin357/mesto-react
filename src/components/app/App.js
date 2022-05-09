@@ -43,11 +43,11 @@ function App() {
 
   useEffect(() => {
     function closeByEscape(evt) {
-      if(evt.key === 'Escape') {
+      if (evt.key === 'Escape') {
         closeAllPopups();
       }
     }
-    if(isOpen) {
+    if (isOpen) {
       document.addEventListener('keydown', closeByEscape);
       return () => {
         document.removeEventListener('keydown', closeByEscape);
@@ -67,7 +67,7 @@ function App() {
   }, [isOpen]);
 
   return (
-<>
+    <>
       <Header />
 
       <Main
@@ -87,10 +87,10 @@ function App() {
         buttonText="Сохранить"
       >
         <input type="text" className="popup__text popup__text_type_name" name="name" id="type-name" minLength="2"
-          maxLength="40" placeholder="Имя" required/>
+          maxLength="40" placeholder="Имя" required />
         <span className="type-name-error popup__error"></span>
         <input type="text" className="popup__text popup__text_type_job" name="job" minLength="2" maxLength="200"
-          id="type-job" placeholder="О себе" required/>
+          id="type-job" placeholder="О себе" required />
         <span className="type-job-error  popup__error"></span>
       </PopupWithForm>
 
@@ -102,10 +102,10 @@ function App() {
         buttonText="Создать"
       >
         <input type="text" placeholder="Название" className="popup__text popup__text_name" name="name" id="text-name"
-          minLength="2" maxLength="30" required/>
+          minLength="2" maxLength="30" required />
         <span className="text-name-error popup__error"></span>
         <input type="url" placeholder="Ссылка на картинку" className="popup__text popup__text_type_link" name="link"
-          id="type-link" required/>
+          id="type-link" required />
         <span className="type-link-error  popup__error"></span>
       </PopupWithForm>
 
@@ -117,7 +117,7 @@ function App() {
         buttonText="Сохранить"
       >
         <input className="popup__text" type="url" placeholder="Ссылка на картинку" name="linkAvatar" id="type-linkAvatar"
-          required/>
+          required />
         <span className="type-linkAvatar-error popup__error"></span>
       </PopupWithForm>
 
@@ -130,8 +130,8 @@ function App() {
 
       <ImagePopup
         openPopupZoomCard={selectedCard}
-        closePopup={closeAllPopups}/>
-        </>
+        closePopup={closeAllPopups} />
+    </>
   );
 }
 
