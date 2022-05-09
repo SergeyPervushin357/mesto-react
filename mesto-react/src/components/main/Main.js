@@ -10,11 +10,11 @@ function Main({ onEditAvatar, onEditProfile, onAddPlace, onCardClick }) {
 
   useEffect(() => {
     Promise.all([api.getProfile(), api.getInitialCards()])
-      .then(([data, cardList]) => {
+      .then(([data, card]) => {
         setUserName(data.name);
         setUserDescription(data.about);
         setUserAvatar(data.avatar);
-        const usersCard = cardList.map(card => {
+        const usersCard = card.map(card => {
           return {
             name: card.name,
             link: card.link,
