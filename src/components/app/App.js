@@ -3,7 +3,7 @@ import Footer from '../footer/Footer';
 import Main from '../main/Main';
 import PopupWithForm from '../popupWithForm/PopupWithForm';
 import ImagePopup from '../imagePopup/ImagePopup';
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 
 function App() {
@@ -38,6 +38,33 @@ function App() {
     setIsAddPlacePopupOpen(false);
     setSelectedCard(null);
   }
+
+  const isOpen = isEditAvatarPopupOpen || isEditProfilePopupOpen || isAddPlacePopupOpen || selectedCard;
+
+  useEffect(() => {
+    function closeByEscape(evt) {
+      if(evt.key === 'Escape') {
+        closeAllPopups();
+      }
+    }
+    if(isOpen) {
+      document.addEventListener('keydown', closeByEscape);
+      return () => {
+        document.removeEventListener('keydown', closeByEscape);
+      }
+    }
+  }, [isOpen])
+
+  useEffect(() => {
+    if (!isOpen) return;
+    function handleOverley(e) {
+      if (e.target.classList.contains('popup_open') || e.target.classList.contains('popup__closed')) {
+        closeAllPopups();
+      }
+    }
+    document.addEventListener("mousedown", handleOverley);
+    return () => document.removeEventListener("mousedown", handleOverley)
+  }, [isOpen]);
 
   return (
 <>
