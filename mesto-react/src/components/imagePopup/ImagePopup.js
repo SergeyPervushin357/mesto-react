@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 
-function ImagePopup({ card, closePopup }) {
+function ImagePopup({ openPopupZoomCard, closePopup }) {
   useEffect(() => {
-    if (!card) return;
+    if (!openPopupZoomCard) return;
 
     function handlEsc(e) {
       if (e.key === "Escape") {
@@ -11,10 +11,10 @@ function ImagePopup({ card, closePopup }) {
     }
     document.addEventListener("keydown", handlEsc);
     return () => document.removeEventListener("keydown", handlEsc)
-  }, [card]);
+  }, [openPopupZoomCard]);
 
   useEffect(() => {
-    if (!card) return;
+    if (!openPopupZoomCard) return;
 
     function handleOverley(e) {
       if (e.target.classList.contains('popup_open') || e.target.classList.contains('popup__closed')) {
@@ -23,14 +23,14 @@ function ImagePopup({ card, closePopup }) {
     }
     document.addEventListener("click", handleOverley);
     return () => document.removeEventListener("click", handleOverley)
-  }, [card]);
+  }, [openPopupZoomCard]);
 
   return (
-    <div className={`popup popup_viewing ${card && "popup_open"}`} >
+    <div className={`popup popup_viewing ${openPopupZoomCard && "popup_open"}`} >
       <div className="popup__photo">
         <button className="popup__closed popup__closed_img" type="button" onClick={closePopup}></button>
-        <img className="popup__image" src={card && card.link} alt={card && card.name} />
-        <p className="popup__caption">{card && card.name}</p>
+        <img className="popup__image" src={openPopupZoomCard && openPopupZoomCard.link} alt={openPopupZoomCard && openPopupZoomCard.name} />
+        <p className="popup__caption">{openPopupZoomCard && openPopupZoomCard.name}</p>
       </div>
     </div>
   )

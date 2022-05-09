@@ -102,7 +102,7 @@ function App() {
       </PopupWithForm>
 
       <ImagePopup
-        card={selectedCard}
+        openPopupZoomCard={selectedCard}
         closePopup={closeAllPopups}/>
         </>
   );
