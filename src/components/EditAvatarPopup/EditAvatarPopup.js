@@ -24,7 +24,7 @@ function EditAvatarPopup({ isOpen, onUpdateAvatar, downloadText, buttonDisabled,
       buttonText={downloadText ? "Загружаем аватар..." : "Загрузить"}
       openPopup={isOpen}
       onSubmit={handleSubmit}
-      buttonDisabled={ButtonDisabled}
+      buttonDisabled={buttonDisabled}
     >
       <input className="popup__text" type="url" placeholder="Ссылка на картинку" name="linkAvatar" id="type-linkAvatar"
         required ref={avatarRef} />
