@@ -37,6 +37,7 @@ class Api {
     })
       .then(this._ckeckResp);
   }
+  
 
   addCard(name, link) {
     return fetch(`${this._baseUrl}/cards`, {
