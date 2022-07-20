@@ -1,48 +1,21 @@
-import React, { useState, useEffect } from "react";
-import { api } from '../utils/Api';
+import React, { useContext } from "react";
 import Card from "../card/Card";
+import TranslationContext from '../../contexts/CurrentUserContext';
 
-function Main({ onEditAvatar, onEditProfile, onAddPlace, onCardClick }) {
-  const [userName, setUserName] = useState("");
-  const [userDescription, setUserDescription] = useState("");
-  const [userAvatar, setUserAvatar] = useState("");
-  const [cards, setCards] = useState([]);
-
-  useEffect(() => {
-    Promise.all([api.getProfile(), api.getInitialCards()])
-      .then(([data, card]) => {
-        setUserName(data.name);
-        setUserDescription(data.about);
-        setUserAvatar(data.avatar);
-        const usersCard = card.map(card => {
-          return {
-            name: card.name,
-            link: card.link,
-            likes: card.likes,
-            cardId: card._id,
-          };
-        });
-        setCards(usersCard);
-      })
-      .catch((err) => {
-        err.then((res) => {
-          alert(res.message)
-        })
-      })
-  }, [])
-
+function Main({ onEditAvatar, onEditProfile, onAddPlace, onCardClick, cards }) {
+  const { avatar, name, about } = useContext(TranslationContext);
   return (
     <div className="content">
       <section className="profile">
         <div className="profile__info">
           <div className="profile__image" onClick={onEditAvatar}>
-            <img className="profile__avatar" src={userAvatar} alt="аватар" /></div>
+            <img className="profile__avatar" src={avatar} alt="аватар" /></div>
           <div className="profile__text">
             <div className="profile__name">
-              <h1 className="profile__title">{userName}</h1>
+              <h1 className="profile__title">{name}</h1>
               <button type="button" className="profile__open" onClick={onEditProfile}></button>
             </div>
-            <p className="profile__subtitle">{userDescription}</p>
+            <p className="profile__subtitle">{about}</p>
           </div>
         </div>
         <button type="button" className="profile__button" onClick={onAddPlace}></button>
@@ -52,7 +25,7 @@ function Main({ onEditAvatar, onEditProfile, onAddPlace, onCardClick }) {
           {cards.map(card => {
             return (
               <Card
-                key={card.cardId}
+                key={card._id}
                 card={card}
                 onCardClick={onCardClick}
               />

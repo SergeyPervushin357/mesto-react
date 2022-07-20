@@ -3,7 +3,9 @@ import Footer from '../footer/Footer';
 import Main from '../main/Main';
 import PopupWithForm from '../popupWithForm/PopupWithForm';
 import ImagePopup from '../imagePopup/ImagePopup';
+import TranslationContext from '../../contexts/CurrentUserContext';
 import { useState, useEffect } from "react";
+import { api } from '../utils/Api';
 
 
 function App() {
@@ -11,6 +13,8 @@ function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState(null);
+  const [isCurrentUser, setIsCurrentUser] = useState({});
+  const [isCards, setIsCards] = useState([]);
 
   const handleEditAvatarClick = () => {
     setIsEditAvatarPopupOpen(true);
@@ -39,7 +43,22 @@ function App() {
     setSelectedCard(null);
   }
 
-  const isOpen = isEditAvatarPopupOpen || isEditProfilePopupOpen || isAddPlacePopupOpen || selectedCard;
+  const isOpen = isEditAvatarPopupOpen
+  || isEditProfilePopupOpen || isAddPlacePopupOpen
+  || selectedCard;
+
+  useEffect(() => {
+    Promise.all([api.getProfile(), api.getInitialCards()])
+      .then(([user, cards]) => {
+        setIsCurrentUser(user);
+        setIsCards(cards);
+      })
+      .catch((err) => {
+        err.then((res) => {
+          alert(res.message)
+        })
+      })
+  }, [])
 
   useEffect(() => {
     function closeByEscape(evt) {
@@ -67,7 +86,8 @@ function App() {
   }, [isOpen]);
 
   return (
-    <>
+    <TranslationContext.Provider value={isCurrentUser}>
+
       <Header />
 
       <Main
@@ -75,6 +95,7 @@ function App() {
         onEditProfile={handleEditProfileClick}
         onAddPlace={handleAddPlaceClick}
         onCardClick={handleCardClick}
+        cards={isCards}
       />
 
       <Footer />
@@ -130,8 +151,10 @@ function App() {
 
       <ImagePopup
         openPopupZoomCard={selectedCard}
-        closePopup={closeAllPopups} />
-    </>
+        closePopup={closeAllPopups}
+      />
+
+    </TranslationContext.Provider>
   );
 }
 
